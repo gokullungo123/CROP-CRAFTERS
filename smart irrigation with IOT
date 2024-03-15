@@ -11,6 +11,9 @@ char pass[] = "YourWiFiPassword";
 #define Light 2 // Change pin number to match ESP32
 #define DHTPIN 4 // Change pin number to match ESP32
 #define DHTTYPE DHT11
+#define RelayPin 5 // Define the pin connected to the relay
+#define MoistureSensorPin 34 // Define the analog pin for the moisture sensor
+
 DHT dht(DHTPIN, DHTTYPE);
 BlynkTimer timer;
 float moisture = 0; // Initialize moisture reading
@@ -34,6 +37,7 @@ void setup()
 {
     Serial.begin(9600);
     pinMode(Light, OUTPUT);
+    pinMode(RelayPin, OUTPUT); // Set relay pin as output
     Blynk.begin(auth, ssid, pass);
     digitalWrite(Light, HIGH);
     dht.begin();
@@ -42,22 +46,24 @@ void setup()
 
 void loop()
 {
-    Blynk.virtualWrite(V3, analogRead(34)); // Change to appropriate analog pin number on ESP32
-    moisture = analogRead(34); // Change to appropriate analog pin number on ESP32
+    Blynk.virtualWrite(V3, analogRead(MoistureSensorPin)); // Change to appropriate analog pin number on ESP32
+    moisture = analogRead(MoistureSensorPin); // Change to appropriate analog pin number on ESP32
     Serial.print("Moisture: ");
     Serial.println(moisture);
 
     if (moisture <= 600)
     {
+        digitalWrite(RelayPin, LOW); // Activate relay to turn on pump
         digitalWrite(Light, HIGH);
-        Blynk.notify("Pump Stop, Water not Flowing");
-        Serial.println("Pump Stop, Water not Flowing");
-    }
-    else if (moisture >= 650)
-    {
-        digitalWrite(Light, LOW);
         Blynk.notify("Pump Started, Water Flowing");
         Serial.println("Pump started, Water Flowing");
+    }
+    else if (moisture >= 700)
+    {
+        digitalWrite(RelayPin, HIGH); // Deactivate relay to turn off pump
+        digitalWrite(Light, LOW);
+        Blynk.notify("Pump Stop, Water not Flowing");
+        Serial.println("Pump Stop, Water not Flowing");
     }
 
     Blynk.run();
