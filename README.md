@@ -4,11 +4,14 @@ This project involves monitoring soil moisture levels using an ESP32 microcontro
 
 ## Components Required
 
-- ESP32 Development Board
-- Soil Moisture Sensor
-- DHT11 Temperature and Humidity Sensor
-- Water Pump
-- Jumper Wires
+1. ESP32 Development Board
+2. DHT11 Temperature and Humidity Sensor
+3. Soil Moisture Sensor
+4. Relay Module
+5. Water Pump
+6. Power Supply
+7. Breadboard
+8. Connecting Wires
 
 ## Setup Instructions
 
@@ -16,6 +19,7 @@ This project involves monitoring soil moisture levels using an ESP32 microcontro
    - Connect the soil moisture sensor to the analog pin of the ESP32 (e.g., pin 34).
    - Connect the DHT11 sensor to the specified pin of the ESP32 (e.g., pin 4).
    - Connect the water pump to a digital pin of the ESP32 (e.g., pin 2).
+   - Ensure proper power supply and connections for all components.
 
 2. **Software Setup**:
    - Install the Arduino IDE on your computer.
@@ -48,5 +52,3 @@ This project involves monitoring soil moisture levels using an ESP32 microcontro
 - If you encounter any issues during setup, double-check the connections and ensure that the libraries are correctly installed.
 - Make sure the Blynk app is configured with the correct authentication token and widgets.
 - Verify that the sensors are functioning correctly and providing accurate readings.
-
-
